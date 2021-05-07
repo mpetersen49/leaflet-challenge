@@ -10,7 +10,9 @@ var colors = ["#a3f600", "#dcf400", "#f7db11", "#fbd72a", "#fca35d", "#ff5f65"]
 function createFeatures(earthquakeData) {
   
   function onEachFeature(feature, layer) {
-    layer.bindPopup(`${feature.properties.place}, ${feature.geometry.coordinates[2]}`)
+    layer.bindPopup(`<b>Location:</b> ${feature.properties.place}<br>
+                      <b>Magnitude:</b> ${feature.properties.mag}<br>
+                      <b>Depth:</b> ${feature.geometry.coordinates[2]}`)
   };
 
   function getColors (d) {
