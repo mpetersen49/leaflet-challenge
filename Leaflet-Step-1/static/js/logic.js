@@ -5,6 +5,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
   createFeatures(data.features);  
 });
 
+var colors = ["#a3f600", "#dcf400", "#f7db11", "#fbd72a", "#fca35d", "#ff5f65"]
+
 function createFeatures(earthquakeData) {
   
   function onEachFeature(feature, layer) {
@@ -12,7 +14,6 @@ function createFeatures(earthquakeData) {
   };
 
   function getColors (d) {
-    var colors = ["#a3f600", "#dcf400", "#f7db11", "#fbd72a", "#fca35d", "#ff5f65"]
     switch(true) {
       case d > 90:
         color = colors[5];
@@ -36,12 +37,10 @@ function createFeatures(earthquakeData) {
     return color
   };
 
-  //-10, 10, 30, 50, 70, 90
-
   function getOptions(r, d) {
     return {
       radius: r*5,
-      fillColor: getColors(d), //"#ff7800",
+      fillColor: getColors(d),
       color: "#000",
       weight: 1,
       opacity: 1,
@@ -59,7 +58,6 @@ function createFeatures(earthquakeData) {
   createMap(earthquakes);
 
 };
-
 
 function createMap(earthquakes) {
 
@@ -81,5 +79,21 @@ function createMap(earthquakes) {
       zoom: 5,
       layers: [map, earthquakes]
     });
+
+  var legend = L.control({position: "bottomright"});
+
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var grades = [-10, 10, 30, 50, 70, 90];
+
+    for (var i = 0; i < grades.length; i++) {
+      div.innerHTML +=
+        '<i style="background:'+ colors[i] +'"></i> '+ grades[i] + (grades[i] ? "&ndash;" + grades[i + 1] + "<br>":"+");
+
+    };
+    return div;
+  };
+
+  legend.addTo(myMap);
      
 };
