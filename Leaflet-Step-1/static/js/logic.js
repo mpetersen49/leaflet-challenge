@@ -8,29 +8,29 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 function createFeatures(earthquakeData) {
   
   function onEachFeature(feature, layer) {
-    layer.bindPopup(`${feature.properties.place}, ${feature.properties.mag}`)
+    layer.bindPopup(`${feature.properties.place}, ${feature.geometry.coordinates[2]}`)
   };
 
   function getColors (d) {
     var colors = ["#a3f600", "#dcf400", "#f7db11", "#fbd72a", "#fca35d", "#ff5f65"]
     switch(true) {
       case d > 90:
-        color = colors[0];
+        color = colors[5];
         break;
       case d > 70:
-        color = colors[1];
-        break;
-      case d > 50:
-        color = colors[2];
-        break;
-      case d > 30:
-        color = colors[3];
-        break;
-      case d > 10:
         color = colors[4];
         break;
+      case d > 50:
+        color = colors[3];
+        break;
+      case d > 30:
+        color = colors[2];
+        break;
+      case d > 10:
+        color = colors[1];
+        break;
       case d > -10:
-        color = colors[5];
+        color = colors[0];
         break;
     };
     return color
